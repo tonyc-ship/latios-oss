@@ -1,0 +1,473 @@
+app/episode/[...id]/_components/EpisodeSummary.tsx:219:  // 重试功能
+app/episode/[...id]/_components/EpisodeSummary.tsx:229:  // 处理订阅按钮点击
+app/episode/[...id]/_components/EpisodeSummary.tsx:234:  // 获取已存在的 summary
+app/episode/[...id]/_components/EpisodeSummary.tsx:250:  // 从数据库获取 transcript
+app/episode/[...id]/_components/EpisodeSummary.tsx:264:  // 生成 summary
+app/episode/[...id]/_components/EpisodeSummary.tsx:300:    // 检查状态码，如果是503（服务不可用），显示友好错误信息
+app/episode/[...id]/_components/EpisodeSummary.tsx:318:    let buffer = ''; // 用于处理可能被分割的标记
+app/episode/[...id]/_components/EpisodeSummary.tsx:325:          // 流结束时，处理缓冲区中的剩余内容（如果标记还没检测到）
+app/episode/[...id]/_components/EpisodeSummary.tsx:334:        // 将新 chunk 添加到缓冲区
+app/episode/[...id]/_components/EpisodeSummary.tsx:337:        // 检测特殊标记（可能跨 chunk）
+app/episode/[...id]/_components/EpisodeSummary.tsx:340:          // 找到标记，提取标记之前的内容
+app/episode/[...id]/_components/EpisodeSummary.tsx:346:          // 提前设置流完成状态，以便显示付费蒙层
+app/episode/[...id]/_components/EpisodeSummary.tsx:349:          // 清空缓冲区，后续数据不再处理
+app/episode/[...id]/_components/EpisodeSummary.tsx:351:          // 继续消费流（丢弃后续数据），直到流结束，确保后端可以完整生成并保存
+app/episode/[...id]/_components/EpisodeSummary.tsx:355:        // 如果已经达到限制，继续消费流但不再更新 UI
+app/episode/[...id]/_components/EpisodeSummary.tsx:357:          buffer = ''; // 清空缓冲区，不处理后续数据
+app/episode/[...id]/_components/EpisodeSummary.tsx:361:        // 如果缓冲区可能包含标记的开始部分（标记长度31），保留最后31个字符
+app/episode/[...id]/_components/EpisodeSummary.tsx:362:        // 否则可以安全处理前面的内容
+app/episode/[...id]/_components/EpisodeSummary.tsx:379:          // 缓冲区太小但已经有内容，标记 loading 为 false
+app/episode/[...id]/_components/EpisodeSummary.tsx:399:    // 如果没有检测到标记，正常结束流
+app/episode/[...id]/_components/EpisodeSummary.tsx:505:          {/* 付费内容蒙层 - 只对免费用户显示 */}
+app/episode/[...id]/_components/EpisodeSummary.tsx:508:              {/* 付费内容提示 */}
+app/episode/[...id]/_components/EpisodeHeader.tsx:41:  // 检查描述是否溢出
+app/episode/[...id]/_components/EpisodeHeader.tsx:54:      // 延迟检查，确保DOM已更新
+app/episode/[...id]/_components/EpisodeHeader.tsx:63:  // 格式化日期
+app/episode/[...id]/_components/EpisodeTranscript.tsx:45:// 将毫秒转换为时分秒格式
+app/episode/[...id]/_components/EpisodeTranscript.tsx:52:  // 格式化为 HH:MM:SS
+app/episode/[...id]/_components/EpisodeTranscript.tsx:115:  // 处理订阅按钮点击
+app/episode/[...id]/_components/EpisodeTranscript.tsx:139:          // 数据库内容不是JSON（例如纯文本），进行容错包装
+app/episode/[...id]/_components/EpisodeTranscript.tsx:149:        // 验证数据格式
+app/episode/[...id]/_components/EpisodeTranscript.tsx:155:        // 检查数据是否已经是按分钟分组的格式
+app/episode/[...id]/_components/EpisodeTranscript.tsx:162:          // 验证每个分钟段的数据格式
+app/episode/[...id]/_components/EpisodeTranscript.tsx:188:          // 处理每个分钟段的数据
+app/episode/[...id]/_components/EpisodeTranscript.tsx:200:          // 保存到 localStorage
+app/episode/[...id]/_components/EpisodeTranscript.tsx:208:        // 如果不是预分组的格式，则按原来的逻辑处理
+app/episode/[...id]/_components/EpisodeTranscript.tsx:209:        // 验证每个段落的数据格式
+app/episode/[...id]/_components/EpisodeTranscript.tsx:242:        // 将数据转换为所需的格式
+app/episode/[...id]/_components/EpisodeTranscript.tsx:248:          // 确保数值类型正确
+app/episode/[...id]/_components/EpisodeTranscript.tsx:251:          const speakerId = String(segment.SpeakerId); // 确保 SpeakerId 是字符串
+app/episode/[...id]/_components/EpisodeTranscript.tsx:274:          // 处理最后一个段落
+app/episode/[...id]/_components/EpisodeTranscript.tsx:283:        // 保存到 localStorage
+app/episode/[...id]/_components/EpisodeTranscript.tsx:355:        // 验证数据格式
+app/episode/[...id]/_components/EpisodeTranscript.tsx:361:        // 检查数据是否已经是按分钟分组的格式
+app/episode/[...id]/_components/EpisodeTranscript.tsx:369:          // 验证每个分钟段的数据格式
+app/episode/[...id]/_components/EpisodeTranscript.tsx:396:          // 处理每个分钟段的数据
+app/episode/[...id]/_components/EpisodeTranscript.tsx:408:          // 保存到 localStorage
+app/episode/[...id]/_components/EpisodeTranscript.tsx:416:        // 如果不是预分组的格式，则按原来的逻辑处理
+app/episode/[...id]/_components/EpisodeTranscript.tsx:418:        // 验证每个段落的数据格式
+app/episode/[...id]/_components/EpisodeTranscript.tsx:451:        // 将数据转换为所需的格式
+app/episode/[...id]/_components/EpisodeTranscript.tsx:457:          // 确保数值类型正确
+app/episode/[...id]/_components/EpisodeTranscript.tsx:460:          const speakerId = String(segment.SpeakerId); // 确保 SpeakerId 是字符串
+app/episode/[...id]/_components/EpisodeTranscript.tsx:488:          // 处理最后一个段落
+app/episode/[...id]/_components/EpisodeTranscript.tsx:497:        // 保存到 localStorage
+app/episode/[...id]/_components/EpisodeTranscript.tsx:540:          // 保存翻译到 localStorage
+app/episode/[...id]/_components/EpisodeTranscript.tsx:638:    // 处理SpeakerId显示格式
+app/episode/[...id]/_components/EpisodeTranscript.tsx:640:      // 如果已经是"Speaker X"格式，直接返回
+app/episode/[...id]/_components/EpisodeTranscript.tsx:645:      // 如果是数字（字符串形式），转换为"Speaker X"格式
+app/episode/[...id]/_components/EpisodeTranscript.tsx:648:        return `Speaker ${speakerNum + 1}`; // 从1开始显示
+app/episode/[...id]/_components/EpisodeTranscript.tsx:651:      // 如果是其他格式，尝试提取数字
+app/episode/[...id]/_components/EpisodeTranscript.tsx:657:      // 如果无法解析，返回原始值
+app/episode/[...id]/_components/EpisodeTranscript.tsx:716:      {/* 付费内容蒙层 - 只对免费用户显示 */}
+app/episode/[...id]/_components/EpisodeTranscript.tsx:719:          {/* 付费内容提示 */}
+app/episode/[...id]/_components/EpisodeContent.tsx:84:      const src = episodeData?.type === 'xyz' ? '小宇宙' : (episodeData?.type === 'youtube' ? 'YouTube' : 'Apple Podcast');
+app/episode/[...id]/_components/EpisodeContent.tsx:123:      const src = episodeData?.type === 'xyz' ? '小宇宙' : (episodeData?.type === 'youtube' ? 'YouTube' : 'Apple Podcast');
+app/episode/[...id]/loading.tsx:8:      {/* 标题骨架 */}
+app/episode/[...id]/loading.tsx:11:      {/* 播客信息区域 */}
+app/episode/[...id]/loading.tsx:13:        {/* 图片骨架 */}
+app/episode/[...id]/loading.tsx:16:        {/* 内容骨架 */}
+app/episode/[...id]/loading.tsx:21:          {/* 描述骨架 */}
+app/episode/[...id]/loading.tsx:29:          {/* 按钮骨架 */}
+app/episode/[...id]/loading.tsx:37:      {/* 内容区域骨架 */}
+app/episode/[...id]/page.tsx:33:        // 首先尝试从数据库获取episode数据
+app/episode/[...id]/page.tsx:58:        // 如果数据库中没有找到，尝试从iTunes API获取
+app/episode/[...id]/page.tsx:108:        source: (episode?.type === 'xyz' ? '小宇宙' : (episode?.type === 'youtube' ? 'YouTube' : 'Apple Podcast')),
+app/library/loading.tsx:8:      {/* Podcast 区域 */}
+app/library/loading.tsx:14:        {/* Podcast 骨架列表 */}
+app/library/loading.tsx:25:      {/* Episodes 区域 */}
+app/library/loading.tsx:31:        {/* Episodes 骨架列表 */}
+app/library/page.tsx:52:  // 状态管理
+app/library/page.tsx:59:  // 分页状态
+app/library/page.tsx:69:  // 数据映射工具函数
+app/library/page.tsx:95:  // 按日期分组episodes
+app/library/page.tsx:120:  // 获取收藏的podcasts
+app/library/page.tsx:146:  // 获取历史记录
+app/library/page.tsx:174:        // 重新分组
+app/library/page.tsx:190:  // 加载更多episodes
+app/library/page.tsx:202:  // Podcast分页处理
+app/library/page.tsx:211:  // 导航函数
+app/library/page.tsx:220:  // 切换描述展开状态
+app/library/page.tsx:233:  // 监听语言变化，重新分组episodes
+app/library/page.tsx:240:  // 初始数据加载
+app/library/page.tsx:287:            {/* Podcast分页控制 */}
+app/library/page.tsx:332:                  {/* 时间轴标题 */}
+app/library/page.tsx:340:                  {/* 该日期的所有集数 */}
+app/library/page.tsx:390:              {/* 加载更多按钮 */}
+app/i18n-provider.tsx:16:        // 使用浏览器语言
+app/search/SearchClient.tsx:78:      // 频道链接格式: https://podcasts.apple.com/cn/podcast/all-ears-english-podcast/id751574016
+app/search/SearchClient.tsx:79:      // 剧集链接格式: https://podcasts.apple.com/cn/podcast/should-you-poke-fun-at-someones-niche-interests/id751574016?i=1000720680743
+app/search/SearchClient.tsx:95:      // 支持多种YouTube链接格式
+app/search/SearchClient.tsx:127:        // 如果是剧集链接，跳转到剧集页面
+app/search/SearchClient.tsx:130:        // 如果是频道链接，跳转到播客页面
+app/search/SearchClient.tsx:180:      // 记录搜索行为
+app/profile/page.tsx:166:        {/* 用户信息部分 */}
+app/_components/HomePageClient.tsx:194:      {/* 搜索和导入栏 */}
+app/layout.tsx:32:  keywords: "podcast transcription, AI Summary, Podcast Summary, Tech News, startup news, vc news, AI technology, ai news, vc podcast, tech show, Tech podcast, latios, latios.ai, 播客转录、人工智能摘要、播客摘要、科技新闻、创业新闻、风投新闻、人工智能技术、人工智能新闻、风投播客、科技节目、科技播客、latios、latios.AI",
+app/layout.tsx:148:            {/* 顶部导航栏 */}
+app/layout.tsx:151:            {/* 内容区域 */}
+app/api/favorites/route.ts:38:      // 获取总数
+app/api/favorites/route.ts:51:      // 获取分页数据
+app/api/favorites/route.ts:103:    // 根据isFollowed决定是添加还是删除收藏
+app/api/favorites/route.ts:123:      // 检查是否已存在（可能被软删除了）
+app/api/favorites/route.ts:140:        // 恢复已有的收藏（更新delete_status）
+app/api/favorites/route.ts:149:        // 根据类型构建收藏数据
+app/api/episode/transcript/route.ts:42:    // 更新浏览量
+app/api/episode/transcript/route.ts:62:// Youtube transcript直接从网页端获取并保存到数据库，不走服务器Python
+app/api/episode/transcript/route.ts:158:  // 对于免费用户，只返回前一半的段落
+app/api/episode/transcript/route.ts:165:        // 内容不是JSON，尝试将纯文本包装为基本段落数组
+app/api/episode/favorite/route.ts:21:      .eq('type', '2') // 2表示单集
+app/api/episode/favorite/route.ts:66:        .eq('type', '2') // 2表示单集
+app/api/episode/favorite/route.ts:88:          type: '2', // 2表示单集
+app/api/episode/summary/status/route.ts:14:        // 检查参数
+app/api/episode/summary/status/route.ts:30:        // 更新用户总结记录
+app/api/episode/summary/route.ts:43:    // 更新浏览量
+app/api/user/history/route.ts:4:// 用户每月的使用量（导航栏）
+app/api/feed/decay/route.ts:19:// 这个 API 应该由定时任务调用，比如每天凌晨
+app/api/feed/decay/route.ts:25:    // 验证是否是定时任务调用
+app/api/feed/decay/route.ts:33:    // 获取所有需要更新的 Feed 记录
+app/api/feed/decay/route.ts:56:    // 批量更新分数
+app/api/feed/decay/route.ts:58:      // 计算新分数（每7天减10分）
+app/api/feed/decay/route.ts:65:      // 如果分数有变化，记录到日志
+app/api/feed/decay/route.ts:77:            action_type: 5, // 5: 时间衰减
+app/api/feed/decay/route.ts:92:    // 批量更新分数
+app/api/feed/decay/route.ts:111:    // 批量插入日志
+app/api/feed/decay/route.ts:118:      // 不返回错误，因为分数已经更新成功
+app/api/feed/route.ts:8:    const sourceType = parseInt(searchParams.get('sourceType') || '0'); // 0: 全部
+app/api/feed/route.ts:9:    const contentType = parseInt(searchParams.get('contentType') || '0'); // 0: 全部
+app/api/history/route.ts:6:// 插入历史记录
+app/api/history/route.ts:62:// 获取用户历史记录（库）
+app/api/history/route.ts:78:    // 获取总数
+app/api/history/route.ts:93:    // 获取分页数据
+app/api/open/notify/route.ts:9:    // 1. 获取所有未总结的播客节目
+app/api/open/notify/route.ts:19:    // 2. 获取所有失败的任务
+app/api/open/notify/route.ts:23:      .eq('status', 3) // 状态为 3 表示总结失败
+app/api/open/notify/route.ts:31:    // 3. 构建提醒消息
+app/api/open/notify/route.ts:34:    // 添加未总结的播客节目信息
+app/api/open/notify/route.ts:36:      message += '## 待总结的播客节目\n\n';
+app/api/open/notify/route.ts:39:        message += `- **${podcast.title}**: ${podcast.unsummarized_episodes} 个未总结节目\n`;
+app/api/open/notify/route.ts:45:    // 添加失败的任务信息
+app/api/open/notify/route.ts:47:      message += '## 总结失败的任务\n\n';
+app/api/open/notify/route.ts:50:        message += `- **任务 ID**: ${job.job_id}\n`;
+app/api/open/notify/route.ts:52:        message += `  - **错误**: ${job.error || '未知错误'}\n`;
+app/api/open/notify/route.ts:53:        message += `  - **时间**: ${new Date(job.updated_at).toLocaleString()}\n\n`;
+app/api/open/podcasts/route.ts:6:  // 验证 API 密钥
+app/api/open/podcasts/route.ts:25:    // 格式化响应
+app/api/open/jobs/utils.ts:4: * 处理URL跳转，获取最终URL
+app/api/open/jobs/utils.ts:5: * @param urlString 原始URL
+app/api/open/jobs/utils.ts:6: * @param visitedUrls 已访问的URL集合（防止循环跳转）
+app/api/open/jobs/utils.ts:7: * @returns 最终URL
+app/api/open/jobs/utils.ts:18:    // 调用Python接口获取最终URL
+app/api/open/jobs/utils.ts:40:      // 如果最终URL与原始URL不同，继续处理重定向链
+app/api/open/jobs/utils.ts:55: * 从苹果播客URL解析出播客ID和节目ID
+app/api/open/jobs/utils.ts:56: * @param appleUrl 苹果播客URL
+app/api/open/jobs/utils.ts:57: * @returns 播客ID和节目ID
+app/api/open/jobs/utils.ts:63:    // 从最终URL提取播客ID和节目ID
+app/api/open/jobs/utils.ts:84: * 处理iTunes标题，去除特殊字符
+app/api/open/jobs/utils.ts:85: * @param title 原始标题
+app/api/open/jobs/utils.ts:86: * @returns 处理后的标题
+app/api/open/jobs/utils.ts:89:  // 1. 替换多个连续的小数点为一个 "-"
+app/api/open/jobs/utils.ts:92:  // 2. 移除除字母、数字、空格和 "-" 以外的字符（保留 "-"）
+app/api/open/jobs/utils.ts:95:  // 3. 替换多个空格和多余的 "-" 为单个 "-"
+app/api/open/jobs/utils.ts:100: * 移除所有特殊字符（包括横线）
+app/api/open/jobs/utils.ts:101: * @param title 标题
+app/api/open/jobs/utils.ts:102: * @returns 清理后的标题
+app/api/open/jobs/utils.ts:109: * 从URL中提取播客名称
+app/api/open/jobs/utils.ts:111: * @returns 播客名称
+app/api/open/jobs/utils.ts:118:    // 对URL编码的字符进行解码，特别是中文字符
+app/api/open/jobs/utils.ts:128: * 在episodes列表中查找匹配的episode
+app/api/open/jobs/utils.ts:129: * @param episodes episodes列表
+app/api/open/jobs/utils.ts:130: * @param targetEpisodeId 目标episode ID
+app/api/open/jobs/utils.ts:131: * @param urlTitle URL中的标题
+app/api/open/jobs/utils.ts:132: * @returns 匹配的episode或null
+app/api/open/jobs/utils.ts:137:  // 1. 首先尝试精确匹配episode ID
+app/api/open/jobs/utils.ts:145:  // 2. 如果精确匹配失败，使用模糊匹配
+app/api/open/jobs/utils.ts:151:    // 检查line_title字段
+app/api/open/jobs/utils.ts:157:    // 带横线的标题模糊匹配
+app/api/open/jobs/utils.ts:164:    // 去掉横线再进行比较
+app/api/open/jobs/utils.ts:172:    // 检查link字段
+app/api/open/jobs/utils.ts:186: * 获取播客和节目详情（改进版本，支持多字段匹配）
+app/api/open/jobs/utils.ts:187: * @param podcastId 播客ID
+app/api/open/jobs/utils.ts:188: * @param episodeId 节目ID
+app/api/open/jobs/utils.ts:189: * @param platform 平台
+app/api/open/jobs/utils.ts:190: * @param originalUrl 原始URL（用于提取标题信息）
+app/api/open/jobs/utils.ts:191: * @returns 播客详情和节目详情
+app/api/open/jobs/utils.ts:195:    // 获取播客详情
+app/api/open/jobs/utils.ts:208:    // 提取URL中的标题信息用于匹配
+app/api/open/jobs/utils.ts:212:    // 使用改进的匹配逻辑查找特定的节目
+app/api/open/jobs/utils.ts:226: * 检查转录是否已存在
+app/api/open/jobs/utils.ts:227: * @param episodeId 节目ID
+app/api/open/jobs/utils.ts:228: * @param language 语言代码
+app/api/open/jobs/utils.ts:229: * @returns 转录内容或null
+app/api/open/jobs/utils.ts:237:    .eq('status', 2) // 状态为2表示转录完成
+app/api/open/jobs/utils.ts:249: * 检查总结是否已存在
+app/api/open/jobs/utils.ts:250: * @param episodeId 节目ID
+app/api/open/jobs/utils.ts:251: * @param language 语言代码
+app/api/open/jobs/utils.ts:252: * @returns 总结内容或null
+app/api/open/jobs/utils.ts:260:    .eq('status', 2) // 状态为2表示总结完成
+app/api/open/jobs/utils.ts:272: * 执行音频转录
+app/api/open/jobs/utils.ts:273: * @param audioUrl 音频URL
+app/api/open/jobs/utils.ts:274: * @param episodeId 节目ID
+app/api/open/jobs/utils.ts:275: * @param podcastName 播客名称
+app/api/open/jobs/utils.ts:276: * @param episodeTitle 节目标题
+app/api/open/jobs/utils.ts:277: * @param episodePubDate 发布日期
+app/api/open/jobs/utils.ts:278: * @param userId 用户ID
+app/api/open/jobs/utils.ts:279: * @param platform 平台
+app/api/open/jobs/utils.ts:280: * @returns 转录结果和任务ID
+app/api/open/jobs/utils.ts:291:  // 准备请求数据，与现有的转录API保持一致
+app/api/open/jobs/utils.ts:300:    force_download: true  // 强制下载并上传到 S3
+app/api/open/jobs/utils.ts:328: * 轮询转录状态直到完成
+app/api/open/jobs/utils.ts:329: * @param taskId 转录任务ID
+app/api/open/jobs/utils.ts:330: * @param episodeId 节目ID
+app/api/open/jobs/utils.ts:331: * @returns 转录内容
+app/api/open/jobs/utils.ts:336:  const maxAttempts = 120; // 最多等待 20 分钟 (120 次 * 10 秒)
+app/api/open/jobs/utils.ts:342:      // 先尝试从数据库获取
+app/api/open/jobs/utils.ts:352:        if (data.status === 2) { // 完成
+app/api/open/jobs/utils.ts:354:        } else if (data.status === 3) { // 失败
+app/api/open/jobs/utils.ts:359:      // 如果数据库中没有，则检查任务状态
+app/api/open/jobs/utils.ts:375:      // 继续轮询，不中断
+app/api/open/jobs/utils.ts:378:    // 等待 10 秒后再次检查
+app/api/open/jobs/utils.ts:391: * 生成内容总结
+app/api/open/jobs/utils.ts:392: * @param episodeId 节目ID
+app/api/open/jobs/utils.ts:393: * @param transcript 转录内容
+app/api/open/jobs/utils.ts:394: * @param podcastName 播客名称
+app/api/open/jobs/utils.ts:395: * @param episodeTitle 节目标题
+app/api/open/jobs/utils.ts:396: * @param episodeDuration 节目时长
+app/api/open/jobs/utils.ts:397: * @param episodePubDate 发布日期
+app/api/open/jobs/utils.ts:398: * @param description 描述
+app/api/open/jobs/utils.ts:399: * @param userId 用户ID
+app/api/open/jobs/utils.ts:400: * @param language 语言代码
+app/api/open/jobs/utils.ts:401: * @returns 总结内容
+app/api/open/jobs/utils.ts:439:  // 读取响应流
+app/api/open/jobs/utils.ts:458: * 更新任务状态
+app/api/open/jobs/utils.ts:459: * @param jobId 任务ID
+app/api/open/jobs/utils.ts:460: * @param status 状态码
+app/api/open/jobs/utils.ts:461: * @param content 内容
+app/api/open/jobs/utils.ts:462: * @param error 错误信息
+app/api/open/jobs/utils.ts:463: * @param metadata 元数据
+app/api/open/jobs/utils.ts:491:// 主处理函数
+app/api/open/jobs/utils.ts:496:    // 1. 解析苹果播客URL
+app/api/open/jobs/utils.ts:501:    // 2. 获取播客和节目详情
+app/api/open/jobs/utils.ts:505:    // 3. 提取必要的元数据
+app/api/open/jobs/utils.ts:522:    // 4. 更新任务状态，添加元数据
+app/api/open/jobs/utils.ts:526:    // 5. 检查是否已经有总结
+app/api/open/jobs/utils.ts:528:    const language = 1; // 默认使用英语
+app/api/open/jobs/utils.ts:536:    // 6. 检查是否已经有转录
+app/api/open/jobs/utils.ts:540:    // 7. 如果没有转录，执行转录
+app/api/open/jobs/utils.ts:556:    // 8. 生成总结
+app/api/open/jobs/utils.ts:570:    // 9. 更新任务状态
+app/api/open/jobs/utils.ts:579:    // 更新任务状态为失败
+app/api/open/jobs/route.ts:7:// 提交新的总结任务
+app/api/open/jobs/route.ts:9:  // 验证 API 密钥
+app/api/open/jobs/route.ts:28:    // 检查是否已存在任务
+app/api/open/jobs/route.ts:50:      // 生成任务 ID
+app/api/open/jobs/route.ts:53:      // 创建任务记录
+app/api/open/jobs/route.ts:62:            status: 1, // 1: 开始总结
+app/api/open/jobs/route.ts:74:      // 异步处理总结任务
+app/api/open/jobs/route.ts:79:        // 首先尝试调用Python API
+app/api/open/jobs/route.ts:89:            apple_url: url, // 这里的url是播客URL
+app/api/open/jobs/route.ts:110:      // 作为后备方案，使用原有的processEpisodeSummary方法
+app/api/open/jobs/[id]/route.ts:9:  // 验证 API 密钥
+app/api/open/jobs/[id]/route.ts:26:    // 获取任务状态
+app/api/open/jobs/[id]/route.ts:47:    // 构建响应
+app/api/open/summary/[id]/route.ts:9:  // 验证 API 密钥
+app/api/open/summary/[id]/route.ts:19:    const language = parseInt(searchParams.get('language') || '1'); // 默认为英语
+app/api/open/summary/[id]/route.ts:28:    // 从 tbl_summarize 表获取总结内容https://podcasts.apple.com/us/podcast/chris-dixon-tyler-cowen-on-crypto-ai-and-philosophy/id842818711?i=1000714167404&l=zh-Hans-CN
+app/api/open/summary/[id]/route.ts:34:      .eq('status', 2) // 状态为 2 表示总结完成
+app/api/open/cron/summarize/route.ts:7:// 检查节目是否有转录
+app/api/open/cron/summarize/route.ts:15:    .eq('status', 2) // 转录完成状态
+app/api/open/cron/summarize/route.ts:28:// 调用总结接口
+app/api/open/cron/summarize/route.ts:50:        userId: 'system', // 系统用户ID
+app/api/open/cron/summarize/route.ts:64:    // 读取流式响应
+app/api/open/cron/summarize/route.ts:81:    // 总结接口会自动将结果写入数据库，所以我们不需要返回值
+app/api/open/cron/summarize/route.ts:82:    // 只需要确保流式响应被完整读取
+app/api/open/cron/summarize/route.ts:90:// 获取播客元数据
+app/api/open/cron/summarize/route.ts:111:// 主函数：处理未总结的节目
+app/api/open/cron/summarize/route.ts:116:    // 获取所有有未总结节目的播客
+app/api/open/cron/summarize/route.ts:142:    // 处理每个播客的未总结节目
+app/api/open/cron/summarize/route.ts:153:      // 处理每个未总结的节目
+app/api/open/cron/summarize/route.ts:158:          // 检查是否有转录
+app/api/open/cron/summarize/route.ts:176:          // 生成总结
+app/api/open/cron/summarize/route.ts:184:            1 // 默认英语
+app/api/open/cron/route.ts:4:// 设置一个最小的日期，用于筛选 2025 年 1 月 1 日之后的节目
+app/api/open/cron/route.ts:10:// 获取播客详情，包括节目列表
+app/api/open/cron/route.ts:24:// 检查节目是否已经被总结
+app/api/open/cron/route.ts:42:// 主函数：更新所有推荐播客的统计信息
+app/api/open/cron/route.ts:45:    // 获取所有推荐的播客
+app/api/open/cron/route.ts:77:    // 处理每个推荐的播客
+app/api/open/cron/route.ts:87:      // 筛选 2025 年 1 月 1 日之后的节目
+app/api/open/cron/route.ts:96:      // 检查每个节目是否已经被总结
+app/api/open/cron/route.ts:125:      // 更新或插入到 tbl_open_podcast 表
+app/api/media/translate/route.ts:93:[{"FinalSentence":"你好世界"}]
+app/api/media/translate/route.ts:97:Output: [{"FinalSentence":"他说 \\"你好\\""}]
+app/api/media/translate/route.ts:198:        // 更严格的响应文本清理
+app/api/media/translate/route.ts:200:            .replace(/```json\n?|\n?```/g, '') // 移除代码块标记
+app/api/media/translate/route.ts:201:            .replace(/^[\s\S]*?\[/, '[') // 确保以 [ 开头
+app/api/media/translate/route.ts:202:            .replace(/\][\s\S]*$/, ']') // 确保以 ] 结尾
+app/api/media/translate/route.ts:203:            .replace(/,\s*\]/g, ']') // 移除最后一个元素后的逗号
+app/api/media/translate/route.ts:204:            .replace(/,\s*$/g, '') // 移除末尾的逗号
+app/api/media/translate/route.ts:207:        // 验证和修复 JSON 格式
+app/api/media/translate/route.ts:209:            // 尝试解析 JSON 来验证格式
+app/api/media/translate/route.ts:212:            // 验证数组长度是否与输入相同
+app/api/media/translate/route.ts:217:            // 确保所有 FinalSentence 字段中的双引号都被正确转义
+app/api/media/translate/route.ts:220:                    // 转义双引号
+app/api/media/translate/route.ts:226:            // 重新序列化为 JSON 字符串
+app/api/media/translate/route.ts:233:        // 再次验证修复后的 JSON
+app/api/media/summarize/route.ts:96:// 调用python api
+app/api/media/summarize/route.ts:143:        // 检查响应是否为流式
+app/api/media/summarize/route.ts:146:            // 流式响应，直接转发给前端
+app/api/media/summarize/route.ts:154:            // 非流式响应（备用情况）
+app/api/media/summarize/route.ts:161:            // 创建流式响应
+app/api/media/summarize/route.ts:178:        throw error; // 重新抛出错误，让上层处理
+app/api/media/summarize/route.ts:210:    // 统一由这里关闭
+app/api/media/summarize/route.ts:348:    // 检查是否为ASCII编码的字符串，如果是则解码
+app/api/media/summarize/route.ts:350:      // 处理Unicode转义序列
+app/api/media/summarize/route.ts:356:    // 尝试解析JSON
+app/api/media/summarize/route.ts:364:    // 提取所有FinalSentence并拼接
+app/api/media/summarize/route.ts:369:        // 新格式：直接是segment对象（扁平格式）
+app/api/media/summarize/route.ts:373:        // 旧格式：按分钟分组的嵌套结构（兼容历史数据）
+app/api/media/summarize/route.ts:391:    // 如果解析失败，返回原始内容
+app/api/media/itunes/get/route.ts:48:    // 调试：检查环境变量
+app/podcast/list/page.tsx:38:  // 根据语言选择显示的内容
+app/podcast/list/page.tsx:55:    // 初始检查
+app/podcast/list/page.tsx:59:    // 监听屏幕宽度变化
+app/podcast/list/page.tsx:107:  // 检查是否为移动设备
+app/podcast/[id]/loading.tsx:8:      {/* 标题骨架 */}
+app/podcast/[id]/loading.tsx:11:      {/* 播客信息区域 */}
+app/podcast/[id]/loading.tsx:13:        {/* 图片骨架 */}
+app/podcast/[id]/loading.tsx:16:        {/* 内容骨架 */}
+app/podcast/[id]/loading.tsx:21:          {/* 描述骨架 */}
+app/podcast/[id]/loading.tsx:29:          {/* 按钮骨架 */}
+app/podcast/[id]/loading.tsx:37:      {/* 内容区域骨架 */}
+app/podcast/[id]/page.tsx:143:            // 设置Apple API数据源的分页信息
+app/podcast/[id]/page.tsx:162:    // 更新分数
+app/podcast/[id]/page.tsx:171:        // 更新分数
+app/podcast/[id]/page.tsx:181:            actionType: 1, // 1: 打开播客
+app/podcast/[id]/page.tsx:224:        // 设置分页信息
+app/podcast/[id]/page.tsx:290:  // 根据数据源决定显示的episodes
+app/podcast/[id]/page.tsx:298:      // 如果是数据库数据源，需要重新获取数据
+app/podcast/[id]/page.tsx:300:        setLoading(true); // 添加加载状态
+app/podcast/[id]/page.tsx:324:              actionType: 2, // 2: 点击进入播客的单集
+app/podcast/[id]/page.tsx:329:      // 跳转到单集详情页
+app/podcast/[id]/page.tsx:709:                      // 数据库模式：显示当前页的episodes范围
+app/podcast/[id]/page.tsx:716:                      // Apple API模式：显示前端分页信息
+lib/analytics.ts:152: * 记录用户行为的通用函数
+lib/analytics.ts:153: * @param action 用户行为对象
+lib/analytics.ts:187: * 记录获取转录行为
+lib/analytics.ts:188: * @param episodeId 剧集ID
+lib/analytics.ts:189: * @param episodeTitle 剧集标题
+lib/analytics.ts:190: * @param podcastName 播客名称
+lib/analytics.ts:206: * 记录升级弹窗交互行为
+lib/analytics.ts:207: * @param action 用户选择的操作
+lib/analytics.ts:208: * @param usedCount 已使用次数
+lib/analytics.ts:209: * @param monthlyLimit 月度限制
+lib/analytics.ts:224: * 记录搜索行为
+lib/analytics.ts:225: * @param query 搜索关键词
+lib/analytics.ts:226: * @param resultCount 搜索结果数量
+lib/analytics.ts:240: * 记录订阅行为
+lib/analytics.ts:241: * @param planType 订阅计划类型
+lib/analytics.ts:242: * @param action 订阅相关操作
+lib/analytics.ts:256: * 记录登录行为
+lib/analytics.ts:257: * @param provider 登录提供商
+lib/analytics.ts:258: * @param action 登录相关操作
+lib/analytics.ts:272: * 记录页面访问行为
+lib/analytics.ts:273: * @param page 页面路径
+lib/analytics.ts:274: * @param pageTitle 页面标题
+lib/analytics.ts:288: * 记录点击行为
+lib/analytics.ts:289: * @param element 点击的元素
+lib/analytics.ts:290: * @param context 点击上下文
+lib/analytics.ts:304: * 记录Tracker相关行为
+lib/analytics.ts:305: * @param actionType 行为类型
+lib/analytics.ts:306: * @param targetId 目标ID (可选，如accountName)
+lib/analytics.ts:307: * @param actionDetails 行为详情
+lib/analytics.ts:308: * @param authToken 认证token (可选)
+lib/recommendation.ts:56: * 获取用户的推荐内容
+lib/recommendation.ts:57: * 基于用户的历史行为和内容分数进行推荐
+lib/recommendation.ts:68:  // 首先获取用户 feed 数据
+lib/recommendation.ts:79:  // 如果指定了内容类型，添加内容类型过滤
+lib/recommendation.ts:84:  // 如果有需要排除的内容ID，添加排除条件
+lib/recommendation.ts:100:  // 获取对应的播客信息
+lib/recommendation.ts:116:  // 合并数据
+lib/recommendation.ts:142: * 更新用户对内容的行为记录
+lib/recommendation.ts:151:  // 获取当前session
+lib/recommendation.ts:157:  // 调用API端点而不是直接操作数据库
+lib/recommendation.ts:182: * 获取内容的热度排名
+lib/recommendation.ts:214: * 获取用户的兴趣内容类型分布
+lib/aws-bedrock.ts:106:              // 付费用户：持续向客户端推送
+lib/aws-bedrock.ts:109:              // 免费/未登录：只推送到上限，之后不再推送，但继续累积 fullText
+lib/aws-bedrock.ts:118:                  // 发送特殊标记，告知前端已达到限制
+lib/aws-bedrock.ts:123:                // 已达上限，发送特殊标记
+lib/aws-bedrock.ts:173:                  // 发送特殊标记，告知前端已达到限制
+lib/aws-bedrock.ts:178:                // 已达上限，发送特殊标记
+lib/types.ts:24:  { code: '1', enName: 'English', cnName: '英语', nativeName: 'English' },
+lib/types.ts:25:  { code: '2', enName: 'Chinese', cnName: '中文', nativeName: '中文' },
+lib/types.ts:26:  { code: '3', enName: 'Japanese', cnName: '日语', nativeName: '日本語' },
+lib/types.ts:27:  { code: '4', enName: 'Korean', cnName: '韩语', nativeName: '한국어' },
+lib/types.ts:28:  { code: '5', enName: 'French', cnName: '法语', nativeName: 'Français' },
+lib/types.ts:29:  { code: '6', enName: 'German', cnName: '德语', nativeName: 'Deutsch' },
+lib/types.ts:30:  // { code: '7', enName: 'Spanish', cnName: '西班牙语', nativeName: 'Español' },
+lib/types.ts:31:  // { code: '8', enName: 'Italian', cnName: '意大利语', nativeName: 'Italiano' },
+lib/i18n/i18n.config.ts:2:    // 支持的语言列表
+lib/i18n/i18n.config.ts:5:    // 默认语言
+lib/i18n/i18n.config.ts:8:    // i18next共享配置
+lib/i18n/client.ts:5:// 创建i18n实例
+lib/user-check.ts:13: * 检查用户订阅状态和使用限制
+lib/user-check.ts:14: * @param userId 用户ID
+lib/user-check.ts:101: * 检查用户是否已登录
+lib/user-check.ts:102: * @param request Next.js Request对象
+lib/user-check.ts:103: * @returns 用户ID或null
+lib/user-check.ts:118:    // 如果是job_开头，则认为是open job的token，返回000
+components/ui/podcast-import.tsx:48:  // 提取Apple Podcast ID
+components/ui/podcast-import.tsx:65:  // 提取小宇宙频道ID
+components/ui/podcast-import.tsx:72:  // 提取YouTube视频ID
+components/ui/podcast-import.tsx:89:  // 防抖检测函数
+components/ui/podcast-import.tsx:103:  // 更新检测状态
+components/ui/podcast-import.tsx:117:    // 按优先级检测：Apple -> 小宇宙 -> YouTube
+components/ui/podcast-import.tsx:157:    // 链接格式错误
+components/ui/podcast-import.tsx:168:  // 处理输入变化
+components/ui/podcast-import.tsx:175:  // 处理确认导入
+components/ui/podcast-import.tsx:227:  // 获取状态显示文本
+components/ui/podcast-import.tsx:249:  // 获取状态图标
+components/ui/podcast-import.tsx:262:  // 处理示例链接点击
+components/ui/podcast-import.tsx:268:  // 渲染链接示例
+components/ui/podcast-import.tsx:274:          {/* Apple Podcast 示例 */}
+components/ui/podcast-import.tsx:290:          {/* 小宇宙示例 */}
+components/ui/podcast-import.tsx:306:          {/* YouTube 示例 */}
+components/ui/podcast-import.tsx:344:          {/* 统一输入框 */}
+components/ui/podcast-import.tsx:370:            {/* 状态显示区域 */}
+components/ui/podcast-import.tsx:386:            {/* 确认按钮 - 仅在检测成功时显示 */}
+components/ui/podcast-import.tsx:408:          {/* 链接示例区域 */}
+components/ui/search-and-import-bar.tsx:44:  // 提取Apple Podcast ID
+components/ui/search-and-import-bar.tsx:61:  // 提取小宇宙频道ID
+components/ui/search-and-import-bar.tsx:68:  // 提取YouTube视频ID
+components/ui/search-and-import-bar.tsx:85:  // 防抖检测函数
+components/ui/search-and-import-bar.tsx:99:  // 更新检测状态
+components/ui/search-and-import-bar.tsx:112:    // 按优先级检测：Apple -> 小宇宙 -> YouTube
+components/ui/search-and-import-bar.tsx:149:    // 链接格式错误
+components/ui/search-and-import-bar.tsx:159:  // 处理导入输入变化
+components/ui/search-and-import-bar.tsx:166:  // 处理搜索
+components/ui/search-and-import-bar.tsx:174:    // 跳转到搜索页面
+components/ui/search-and-import-bar.tsx:179:  // 处理确认导入
+components/ui/search-and-import-bar.tsx:225:  // 获取导入状态显示文本
+components/ui/search-and-import-bar.tsx:247:  // 获取导入状态图标
+components/ui/search-and-import-bar.tsx:260:  // 处理示例链接点击
+components/ui/search-and-import-bar.tsx:266:  // 切换 Tab 时重置输入
+components/ui/search-and-import-bar.tsx:278:      // 聚焦搜索输入框
+components/ui/search-and-import-bar.tsx:282:      // 聚焦导入输入框
+components/ui/search-and-import-bar.tsx:289:      {/* Tab 切换 */}
+components/ui/search-and-import-bar.tsx:305:      {/* 搜索/导入输入框 */}
+components/ui/search-and-import-bar.tsx:371:            {/* 支持的平台图标和帮助按钮 */}
+components/ui/search-and-import-bar.tsx:386:            {/* 导入状态显示 */}
+components/ui/search-and-import-bar.tsx:405:      {/* 帮助对话框 - 显示支持的链接格式示例 */}
+components/ui/search-and-import-bar.tsx:412:            {/* Apple Podcast 示例 */}
+components/ui/search-and-import-bar.tsx:427:            {/* 小宇宙示例 */}
+components/ui/search-and-import-bar.tsx:442:            {/* YouTube 示例 */}
+components/menu/TopNavbar.tsx:33:  // 移动端直接跳转到搜索页面
+components/menu/TopNavbar.tsx:44:      {/* 顶部导航栏 */}
+components/menu/TopNavbar.tsx:48:            {/* 左侧：Logo + 导航菜单 */}
+components/menu/TopNavbar.tsx:54:              {/* 桌面端导航菜单 */}
+components/menu/TopNavbar.tsx:75:            {/* 右侧：用户信息 - OSS version: No user profile */}
+components/menu/TopNavbar.tsx:80:            {/* 移动端右侧按钮组 */}
+components/menu/TopNavbar.tsx:82:              {/* 移动端搜索按钮 */}
+components/menu/TopNavbar.tsx:91:              {/* 移动端菜单按钮 */}
+components/menu/TopNavbar.tsx:102:        {/* 移动端菜单 */}
+components/menu/TopNavbar.tsx:128:      {/* 移动端遮罩 */}
