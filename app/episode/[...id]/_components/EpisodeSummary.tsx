@@ -307,73 +307,27 @@ export default React.memo(function EpisodeSummary({ episode, language, type, onC
     const decoder = new TextDecoder();
     let summaryText = '';
     let receivedMeaningfulChunk = false;
-    const GATING_LIMIT_MARKER = '\n---GATING_LIMIT_REACHED---\n';
-    let gatingLimitReached = false;
-    let buffer = ''; // Buffer for handling potentially split markers
 
     try {
       while (true) {
         if (signal.aborted) break;
         const { value, done } = await reader.read();
         if (done) {
-          // 流结束时，处理缓冲区中的剩余内容（如果标记还没检测到）
-          if (buffer && !gatingLimitReached) {
-            summaryText += buffer;
-            setSummary(summaryText);
-          }
+          setIsStreamingComplete(true);
           break;
         }
         const chunkText = decoder.decode(value);
-        
-        // 将新 chunk 添加到缓冲区
-        buffer += chunkText;
-        
-        // 检测特殊标记（可能跨 chunk）
-        const markerIndex = buffer.indexOf(GATING_LIMIT_MARKER);
-        if (markerIndex !== -1) {
-          // 找到标记，提取标记之前的内容
-          const contentBeforeMarker = buffer.substring(0, markerIndex);
-          if (contentBeforeMarker) {
-            summaryText += contentBeforeMarker;
-            setSummary(summaryText);
-          }
-          // 提前设置流完成状态，以便显示付费蒙层
-          setIsStreamingComplete(true);
-          gatingLimitReached = true;
-          // 清空缓冲区，后续数据不再处理
-          buffer = '';
-          // 继续消费流（丢弃后续数据），直到流结束，确保后端可以完整生成并保存
-          continue;
-        }
-        
-        // 如果已经达到限制，继续消费流但不再更新 UI
-        if (gatingLimitReached) {
-          buffer = ''; // 清空缓冲区，不处理后续数据
-          continue;
-        }
-        
-        // 如果缓冲区可能包含标记的开始部分（标记长度31），保留最后31个字符
-        // 否则可以安全处理前面的内容
-        if (buffer.length > GATING_LIMIT_MARKER.length) {
-          const safeLength = buffer.length - GATING_LIMIT_MARKER.length;
-          const safeText = buffer.substring(0, safeLength);
-          buffer = buffer.substring(safeLength);
           
           // Skip keep-alive placeholders (whitespace-only) to avoid blank UI
           if (!receivedMeaningfulChunk) {
-            if (safeText.trim().length === 0) {
+          if (chunkText.trim().length === 0) {
               continue;
-            }
-            receivedMeaningfulChunk = true;
-            setLoading(false);
           }
-          summaryText += safeText;
-          setSummary(summaryText);
-        } else if (!receivedMeaningfulChunk && buffer.trim().length > 0) {
-          // 缓冲区太小但已经有内容，标记 loading 为 false
           receivedMeaningfulChunk = true;
           setLoading(false);
         }
+        summaryText += chunkText;
+        setSummary(summaryText);
         
         if (signal.aborted) break;
       }

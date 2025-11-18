@@ -1,4 +1,3 @@
-import { AWSBedrockService, DEFAULT_MODEL, BEDROCK_MODELS } from '@/lib/aws-bedrock';
 import { supabase } from '@/lib/supabase';
 import { getUserIdFromRequest } from '@/lib/user-check';
 
@@ -104,9 +103,8 @@ async function handleDomesticRequest(params: {
     transcript: string;
     language: number;
     podcast_metadata: any;
-    gating: any;
 }) {
-    const pythonAiUrl = process.env.SUMMARY_URL || 'http://3.227.166.96:7000';
+    const pythonAiUrl = process.env.SUMMARY_URL || 'http://localhost:8001';
     
     try {
         console.log('Calling Python AI service:', pythonAiUrl);
@@ -114,6 +112,7 @@ async function handleDomesticRequest(params: {
         // Generate prompts using the same logic as Node.js
         const { system_prompt, user_prompt } = GetPrompt(params.transcript, params.podcast_metadata, params.language);
         
+        console.log('summarize port: ', `${pythonAiUrl}/summarize`);
         const response = await fetch(`${pythonAiUrl}/summarize`, {
             method: 'POST',
             headers: {
@@ -131,7 +130,6 @@ async function handleDomesticRequest(params: {
                 podcast_metadata: params.podcast_metadata,
                 system_prompt: system_prompt,
                 user_prompt: user_prompt,
-                gating: params.gating,
                 noPersist: false
             }),
         });
@@ -176,42 +174,6 @@ async function handleDomesticRequest(params: {
     } catch (error) {
         console.error('Python AI service error:', error);
         throw error; // Re-throw error for upper layer to handle
-    }
-}
-
-// Fallback to Titan model if Claude fails
-async function fallbackToTitan(
-  controller: ReadableStreamDefaultController<Uint8Array>,
-  bedrockService: AWSBedrockService,
-  system_prompt: string,
-  user_prompt: string,
-  episodeId: string,
-  podcastName: string,
-  episodeTitle: string,
-  episodeDuration: string,
-  episodePubDate: string,
-  language: number,
-  userId: string,
-  gating?: { allowFullStream: boolean; maxClientChars?: number }
-) {
-  console.log('Claude failed, falling back to Amazon Titan');
-  let finalText = '';
-  
-  try {
-    // Combine system and user prompts for Titan
-    const fullPrompt = `${system_prompt}\n\n${user_prompt}`;
-    
-    const response = await bedrockService.streamTitan(fullPrompt, 10000, BEDROCK_MODELS.TITAN_TEXT_PREMIER);
-    const titanResult = await bedrockService.processTitanStream(response, controller, gating);
-    finalText = titanResult.fullText;
-    
-    console.log('Final text (Titan fallback):\n', finalText);
-    await WriteToDB(finalText, episodeId, podcastName, episodeTitle, episodeDuration, episodePubDate, language, userId);
-    // Close controller uniformly here
-    try { controller.close(); } catch (_) {}
-  } catch (err) {
-    console.error("Error during Titan fallback:", err);
-    controller.error(err);
   }
 }
 
@@ -226,10 +188,8 @@ export async function POST(req: Request) {
         // Send a placeholder byte right away
         controller.enqueue(encoder.encode(' '));
 
-        // Always allow full stream (no subscription checks)
         const requestUserId = await getUserIdFromRequest(req);
         const effectiveUserId = requestUserId ?? userId;
-        const gating = { allowFullStream: true };
         const transcript = await getTranscript(episodeId, type==='xyz'? 2:1);
         
         // Check if transcript exists
@@ -249,7 +209,6 @@ export async function POST(req: Request) {
             transcript,
             language,
             podcast_metadata,
-            gating,
           });
 
           if (upstream.body) {
@@ -266,47 +225,8 @@ export async function POST(req: Request) {
           try { controller.close(); } catch (_) {}
           return;
         } catch (err) {
-          // Fall back to Node.js Bedrock path (original behavior)
-          const { system_prompt, user_prompt } = GetPrompt(transcript, podcast_metadata, language);
-          const bedrockService = new AWSBedrockService();
-          try {
-            const response = await bedrockService.streamClaude(
-              system_prompt,
-              user_prompt,
-              10000,
-              DEFAULT_MODEL
-            );
-            const claudeResult = await bedrockService.processClaudeStream(response, controller, gating);
-            await WriteToDB(
-              claudeResult.fullText,
-              episodeId,
-              podcastName,
-              episodeTitle,
-              episodeDuration,
-              episodePubDate,
-              language,
-              effectiveUserId
-            );
-            try { controller.close(); } catch (_) {}
-            return;
-          } catch (fallbackErr) {
-            await fallbackToTitan(
-              controller,
-              bedrockService,
-              system_prompt,
-              user_prompt,
-              episodeId,
-              podcastName,
-              episodeTitle,
-              episodeDuration,
-              episodePubDate,
-              language,
-              effectiveUserId,
-              gating
-            );
-            try { controller.close(); } catch (_) {}
-            return;
-          }
+          console.error('Python service failed, no fallback available:', err);
+          controller.error(err);
         }
       } catch (e) {
         try { controller.error(e as any); } catch (_) {}

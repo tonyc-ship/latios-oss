@@ -50,3 +50,21 @@ npm run dev
 ```
 
 The app will be running at `http://localhost:3000`
+
+#### Python Services (Optional - for local development)
+```bash
+cd python
+pip install -r requirements.txt
+
+# Run both services with one command (recommended)
+python start_services.py
+
+# Or run services individually:
+# python -m uvicorn services.latios_transcribe:app --host 0.0.0.0 --port 8000
+# python -m uvicorn services.latios_summary:app --host 0.0.0.0 --port 8001
+```
+
+### 6. Default Models Used
+
+- **Summarization**: Claude Sonnet 4.5 (`claude-sonnet-4-5-20250929`) or GPT-5.1
+- **Transcription**: Deepgram Nova-3 (`nova-3`) or local Whisper

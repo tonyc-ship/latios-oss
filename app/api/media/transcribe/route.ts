@@ -3,10 +3,7 @@ import { NextResponse } from 'next/server';
 export const maxDuration = 300;
 
 export async function POST(request: Request) {
-  const TRANSCRIBE_URL = process.env.TRANSCRIBE_URL;
-  if (!TRANSCRIBE_URL) {
-    throw new Error('TRANSCRIBE_URL environment variable is not set');
-  }
+  const TRANSCRIBE_URL = process.env.TRANSCRIBE_URL || 'http://localhost:8000';
   
   console.log('TRANSCRIBE_URL:', TRANSCRIBE_URL);
   
@@ -56,10 +53,7 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: Request) {
-  const TRANSCRIBE_URL = process.env.TRANSCRIBE_URL;
-  if (!TRANSCRIBE_URL) {
-    throw new Error('TRANSCRIBE_URL environment variable is not set');
-  }
+  const TRANSCRIBE_URL = process.env.TRANSCRIBE_URL || 'http://localhost:8000';
 
   try {
     const { searchParams } = new URL(request.url);

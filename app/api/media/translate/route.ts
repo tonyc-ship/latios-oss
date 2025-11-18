@@ -1,4 +1,4 @@
-import { AWSBedrockService, BEDROCK_MODELS } from '@/lib/aws-bedrock';
+import { LLMService, LLM_MODELS } from '@/lib/llm-service';
 import { supabase } from '@/lib/supabase';
 
 export const runtime = 'edge'
@@ -104,63 +104,18 @@ IMPORTANT: The output must be a complete, valid JSON array with the same number 
     return { system_prompt, user_prompt };
 }
 
-// AWS Bedrock implementation for non-streaming translation
-async function translateWithBedrock(systemPrompt: string, userPrompt: string): Promise<string> {
-    const bedrockService = new AWSBedrockService();
+// LLM service implementation for non-streaming translation
+async function translateWithLLM(systemPrompt: string, userPrompt: string): Promise<string> {
+    const llmService = new LLMService();
     
     try {
-        // Try Claude first
-        console.log('Using AWS Bedrock Claude for translation');
-        const response = await bedrockService.streamClaude(systemPrompt, userPrompt, 10000);
-        
-        let fullText = '';
-        if (response.body) {
-            for await (const chunk of response.body) {
-                if (chunk.chunk?.bytes) {
-                    const chunkData = JSON.parse(new TextDecoder().decode(chunk.chunk.bytes));
-                    
-                    if (chunkData.type === 'content_block_delta' && chunkData.delta?.text) {
-                        fullText += chunkData.delta.text;
-                    }
-                    
-                    if (chunkData.type === 'message_stop') {
-                        break;
-                    }
-                }
-            }
-        }
-        
-        return fullText;
-    } catch (claudeError) {
-        console.error('AWS Bedrock Claude translation failed, trying Titan:', claudeError);
-        
-        try {
-            // Fallback to Titan
-            const fullPrompt = `${systemPrompt}\n\n${userPrompt}`;
-            const response = await bedrockService.streamTitan(fullPrompt, 10000);
-            
-            let fullText = '';
-            if (response.body) {
-                for await (const chunk of response.body) {
-                    if (chunk.chunk?.bytes) {
-                        const chunkData = JSON.parse(new TextDecoder().decode(chunk.chunk.bytes));
-                        
-                        if (chunkData.outputText) {
-                            fullText += chunkData.outputText;
-                        }
-                        
-                        if (chunkData.completionReason === 'FINISH') {
-                            break;
-                        }
-                    }
-                }
-            }
-            
-            return fullText;
-        } catch (titanError) {
-            console.error('Both AWS Bedrock models failed:', titanError);
-            throw new Error('Translation failed: All AWS Bedrock models failed');
-        }
+        console.log('Using LLM service for translation');
+        const result = await llmService.translateText(systemPrompt, userPrompt, 10000);
+        console.log('LLM translation completed');
+        return result;
+    } catch (error) {
+        console.error('LLM translation failed:', error);
+        throw new Error(`Translation failed: ${error}`);
     }
 }
 
@@ -192,7 +147,7 @@ export async function POST(req: Request) {
     let finalText = '';
 
     try {
-        finalText = await translateWithBedrock(system_prompt, user_prompt);
+        finalText = await translateWithLLM(system_prompt, user_prompt);
         console.log('Raw translation response:', finalText);
 
         // 更严格的响应文本清理

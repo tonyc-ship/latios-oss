@@ -110,7 +110,7 @@ export async function POST(req: Request) {
       language,
     });
 
-    const pythonAiUrl = process.env.SUMMARY_URL || 'http://3.227.166.96:7000';
+    const pythonAiUrl = process.env.SUMMARY_URL || 'http://localhost:8001';
 
     // Fire-and-forget: log user action
     try {
@@ -154,7 +154,6 @@ export async function POST(req: Request) {
         podcast_metadata: null,
         system_prompt,
         user_prompt,
-        gating: { allowFullStream: true },
         noPersist: true,
       }),
     });
