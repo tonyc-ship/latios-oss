@@ -58,25 +58,45 @@ export default function EpisodeDetailPage() {
         // 如果数据库中没有找到，尝试从iTunes API获取
         if (podcastId) {
           const response = await fetch(`/api/media/itunes/get?id=${podcastId}&type=${platform}&episodeId=${episodeId}`);
-          const episodeData = await response.json();
-          setEpisode({
+          const podcastData = await response.json();
+          
+          // If episodeId is provided, find the specific episode in the episodes array
+          let episodeData = podcastData;
+          if (episodeId && podcastData?.episodes && Array.isArray(podcastData.episodes)) {
+            const foundEpisode = podcastData.episodes.find((ep: any) => ep.id === episodeId);
+            if (foundEpisode) {
+              console.log('[EpisodePage] Found episode in episodes array:', foundEpisode);
+              episodeData = foundEpisode;
+              // Merge podcast-level data with episode data
+              episodeData = {
+                ...foundEpisode,
+                podcast_name: foundEpisode.podcast_name || podcastData.title,
+                podcast_img: foundEpisode.podcast_img || foundEpisode.episode_image || podcastData.coverImage,
+              };
+            } else {
+              console.warn('[EpisodePage] Episode not found in episodes array, using podcast data');
+            }
+          }
+          
+          const processedEpisode = {
             ...episodeData,
-            id: episodeData?.id || '',
+            id: episodeData?.id || episodeId || '',
             type: platform || '',
-            podcast_id: episodeData?.channel_id || '',
-            podcast_name: episodeData?.podcast_name || '',
-            podcast_img: episodeData?.podcast_img || '',
+            podcast_id: episodeData?.channel_id || podcastId || '',
+            podcast_name: episodeData?.podcast_name || podcastData?.title || '',
+            podcast_img: episodeData?.podcast_img || episodeData?.episode_image || podcastData?.coverImage || '',
             status: 1,
-            title: episodeData?.title || '',
-            description: episodeData?.description || '',
+            title: episodeData?.title || podcastData?.title || '',
+            description: episodeData?.description || podcastData?.description || '',
             pub_date: episodeData?.published_at || '',
-            author: episodeData?.author || '',
+            author: episodeData?.author || podcastData?.author || '',
             enclosure_length: episodeData?.duration || '',
             enclosure_type: episodeData?.enclosure_type || '',
             enclosure_url: episodeData?.audio_url || '',
-            itunes_image: episodeData?.itunes_image || '',
+            itunes_image: episodeData?.episode_image || episodeData?.podcast_img || podcastData?.coverImage || '',
             itunes_duration: episodeData?.duration || '',
-          });
+          };
+          setEpisode(processedEpisode);
         }
 
       } catch (error) {

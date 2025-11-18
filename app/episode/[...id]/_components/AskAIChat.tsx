@@ -231,10 +231,8 @@ export default function AskAIChat({ episodeId }: { episodeId: string }) {
               setStickToBottom(atBottom);
             }}
           >
-            {
-              messages.length === 0 && (
-                <div className="text-sm text-muted-foreground">Ask anything about this episode.</div>
-              )
+            {messages.length === 0 && (
+              <div className="text-sm text-muted-foreground">Ask anything about this episode.</div>
             )}
             {messages.map((m, idx) => (
               <div key={idx} className={m.role === 'user' ? 'text-right' : 'text-left'}>
