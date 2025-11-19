@@ -16,13 +16,13 @@ interface FeedUpdate {
   };
 }
 
-// 这个 API 应该由定时任务调用，比如每天凌晨
+// This API should be called by scheduled tasks, e.g., daily at midnight
 export async function POST(request: Request) {
   try {
     const { headers } = request;
     const authToken = headers.get('x-cron-auth-token');
     
-    // 验证是否是定时任务调用
+    // Verify if called by scheduled task
     if (authToken !== process.env.CRON_AUTH_TOKEN) {
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // 获取所有需要更新的 Feed 记录
+    // Get all Feed records that need to be updated
     const { data: feeds, error: fetchError } = await supabase
       .from('tbl_user_feed')
       .select('*')
@@ -53,16 +53,16 @@ export async function POST(request: Request) {
       });
     }
 
-    // 批量更新分数
+    // Batch update scores
     const updates: FeedUpdate[] = feeds.map(feed => {
-      // 计算新分数（每7天减10分）
+      // Calculate new score (decrease by 10 points every 7 days)
       const daysSinceUpdate = Math.floor(
         (Date.now() - new Date(feed.update_time).getTime()) / (1000 * 60 * 60 * 24)
       );
       const decayAmount = Math.floor(daysSinceUpdate / 7) * 10;
       const newScore = Math.max(0, feed.score - decayAmount);
 
-      // 如果分数有变化，记录到日志
+      // If score changed, log it
       if (newScore !== feed.score) {
         return {
           feed: {
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
             user_id: feed.user_id,
             content_id: feed.content_id,
             content_type: feed.content_type,
-            action_type: 5, // 5: 时间衰减
+            action_type: 5, // 5: time decay
             score_change: newScore - feed.score
           }
         };
@@ -89,7 +89,7 @@ export async function POST(request: Request) {
       });
     }
 
-    // 批量更新分数
+    // Batch update scores
     const { error: updateError } = await supabase
       .from('tbl_user_feed')
       .upsert(
@@ -108,14 +108,14 @@ export async function POST(request: Request) {
       );
     }
 
-    // 批量插入日志
+    // Batch insert logs
     const { error: logError } = await supabase
       .from('tbl_feed_score_log')
       .insert(updates.map(u => u.log));
 
     if (logError) {
       console.error('Error logging score changes:', logError);
-      // 不返回错误，因为分数已经更新成功
+      // Don't return error, because scores were updated successfully
     }
 
     return NextResponse.json({

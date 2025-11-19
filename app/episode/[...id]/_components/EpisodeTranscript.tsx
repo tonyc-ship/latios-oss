@@ -142,7 +142,7 @@ export default React.memo(function EpisodeTranscript({
           }];
         }
 
-        // 验证数据格式
+        // Validate data format
         if (!Array.isArray(parsedData)) {
           console.error('Invalid transcript data format: not an array', parsedData);
           return null;
@@ -276,7 +276,7 @@ export default React.memo(function EpisodeTranscript({
           }
         });
 
-        // 保存到 localStorage
+        // Save to localStorage
         if (typeof window !== 'undefined') {
           localStorage.setItem(`transcript_${episode.id}`, JSON.stringify(minuteSegments));
         }
@@ -490,7 +490,7 @@ export default React.memo(function EpisodeTranscript({
           }
         });
 
-        // 保存到 localStorage
+        // Save to localStorage
         if (typeof window !== 'undefined') {
           localStorage.setItem(`transcript_${episode.id}`, JSON.stringify(minuteSegments));
         }

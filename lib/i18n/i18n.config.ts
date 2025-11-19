@@ -1,11 +1,11 @@
 export const i18nConfig = {
-    // 支持的语言列表
+    // Supported language list
     supportedLocales: ['en', 'zh'],
     
-    // 默认语言
+    // Default language
     defaultLocale: 'en',
     
-    // i18next共享配置
+    // i18next shared configuration
     i18nextConfig: {
       defaultNS: 'common',
       fallbackLng: 'en',

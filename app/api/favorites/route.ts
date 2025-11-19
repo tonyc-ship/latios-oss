@@ -35,7 +35,7 @@ export async function GET(request: Request) {
       }
       return NextResponse.json({ isFollowed: !!data });
     } else {
-      // 获取总数
+      // Get total count
       const { count: totalCount, error: countError } = await supabase
         .from('tbl_user_favorite')
         .select('*', { count: 'exact', head: true })
@@ -48,7 +48,7 @@ export async function GET(request: Request) {
         return NextResponse.json({ error: 'Failed to count favorites' }, { status: 500 });
       }
 
-      // 获取分页数据
+      // Get paginated data
       const { data: favorites, error } = await supabase
         .from('tbl_user_favorite')
         .select('id, p_id, type, data_id, title, img, url, description, create_time, platform')
@@ -100,7 +100,7 @@ export async function POST(request: Request) {
       description
     } = body;
     
-    // 根据isFollowed决定是添加还是删除收藏
+    // Decide whether to add or remove favorite based on isFollowed
     if (isFollowed) {
       const { error } = await supabase
         .from('tbl_user_favorite')
@@ -120,7 +120,7 @@ export async function POST(request: Request) {
         message: 'Favorite removed'
       });
     } else {
-      // 检查是否已存在（可能被软删除了）
+      // Check if already exists (may have been soft deleted)
       const { data: existingFavorite, error: checkError } = await supabase
         .from('tbl_user_favorite')
         .select('*')
@@ -137,7 +137,7 @@ export async function POST(request: Request) {
       let result;
       
       if (existingFavorite) {
-        // 恢复已有的收藏（更新delete_status）
+        // Restore existing favorite (update delete_status)
         result = await supabase
           .from('tbl_user_favorite')
           .update({ 
@@ -146,7 +146,7 @@ export async function POST(request: Request) {
           })
           .eq('id', existingFavorite.id);
       } else {
-        // 根据类型构建收藏数据
+        // Build favorite data based on type
         interface FavoriteData {
           user_id: string;
           type: number;

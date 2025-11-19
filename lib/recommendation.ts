@@ -53,8 +53,8 @@ export interface RecommendationResult {
 }
 
 /**
- * 获取用户的推荐内容
- * 基于用户的历史行为和内容分数进行推荐
+ * Get user's recommended content
+ * Recommend based on user's historical behavior and content scores
  */
 export async function getRecommendations(options: RecommendationOptions): Promise<RecommendationResult[]> {
   const {
@@ -65,7 +65,7 @@ export async function getRecommendations(options: RecommendationOptions): Promis
     excludeIds = []
   } = options
 
-  // 首先获取用户 feed 数据
+  // First get user feed data
   let query = supabase
     .from('tbl_user_feed')
     .select('content_id, content_type, score, last_action_time, total_actions')
@@ -76,12 +76,12 @@ export async function getRecommendations(options: RecommendationOptions): Promis
     .order('last_action_time', { ascending: false })
     .limit(limit)
 
-  // 如果指定了内容类型，添加内容类型过滤
+  // If content type is specified, add content type filter
   if (contentType) {
     query = query.eq('content_type', contentType)
   }
 
-  // 如果有需要排除的内容ID，添加排除条件
+  // If there are content IDs to exclude, add exclusion condition
   if (excludeIds.length > 0) {
     query = query.not('content_id', 'in', excludeIds)
   }
@@ -97,7 +97,7 @@ export async function getRecommendations(options: RecommendationOptions): Promis
     return []
   }
 
-  // 获取对应的播客信息
+  // Get corresponding podcast information
   const contentIds = feedData.map(item => item.content_id)
   console.log('Content IDs from feed:', contentIds)
 
@@ -113,7 +113,7 @@ export async function getRecommendations(options: RecommendationOptions): Promis
 
   console.log('Podcast data:', podcastData)
 
-  // 合并数据
+  // Merge data
   const podcastMap = new Map(podcastData?.map(podcast => [podcast.itunes_id, podcast]) || [])
   console.log('Podcast map keys:', Array.from(podcastMap.keys()))
   
@@ -139,7 +139,7 @@ export async function getRecommendations(options: RecommendationOptions): Promis
 }
 
 /**
- * 更新用户对内容的行为记录
+ * Update user's action record for content
  */
 export async function updateUserFeedAction(
   userId: string,
@@ -148,13 +148,13 @@ export async function updateUserFeedAction(
   actionType: number,
   scoreChange: number
 ) {
-  // 获取当前session
+  // Get current session
   const { data: { session } } = await supabase.auth.getSession();
   if (!session?.access_token) {
     throw new Error('No session found');
   }
 
-  // 调用API端点而不是直接操作数据库
+  // Call API endpoint instead of directly operating database
   const response = await fetch('/api/feed/action', {
     method: 'POST',
     headers: {
@@ -179,7 +179,7 @@ export async function updateUserFeedAction(
 }
 
 /**
- * 获取内容的热度排名
+ * Get content hot ranking
  */
 export async function getContentHotRank(contentType?: number, limit = 10) {
   const query = `
@@ -211,7 +211,7 @@ export async function getContentHotRank(contentType?: number, limit = 10) {
 }
 
 /**
- * 获取用户的兴趣内容类型分布
+ * Get user's interest content type distribution
  */
 export async function getUserInterests(userId: string) {
   const query = `

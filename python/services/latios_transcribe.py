@@ -44,10 +44,10 @@ class TranscriptionRequest(BaseModel):
     url: HttpUrl
     episode_id: str
     channel_title: Optional[str] = None
-    podcast_name: Optional[str] = None  # 兼容旧的参数名
+    podcast_name: Optional[str] = None  # Compatible with old parameter name
     episode_title: str
     pub_date: Optional[str] = None
-    episode_pub_date: Optional[str] = None  # 兼容旧的参数名
+    episode_pub_date: Optional[str] = None  # Compatible with old parameter name
     user_id: Optional[str] = 'guest'
     user_name: Optional[str] = None
     user_email: Optional[str] = None
@@ -211,7 +211,7 @@ class Transcriber:
                 "episode_id": episode_id,
                 "show_title": channel_title or "",
                 "episode_title": episode_title or "",
-                "language": 2 if is_chinese else 1,  # 中文=2，英文=1
+                "language": 2 if is_chinese else 1,  # Chinese=2, English=1
                 "content": transcript or "",
                 "publish_date": pub_date,
                 "count": 1,

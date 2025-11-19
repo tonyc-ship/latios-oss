@@ -150,42 +150,42 @@ export async function POST(req: Request) {
         finalText = await translateWithLLM(system_prompt, user_prompt);
         console.log('Raw translation response:', finalText);
 
-        // 更严格的响应文本清理
+        // More strict response text cleaning
         finalText = finalText
-            .replace(/```json\n?|\n?```/g, '') // 移除代码块标记
-            .replace(/^[\s\S]*?\[/, '[') // 确保以 [ 开头
-            .replace(/\][\s\S]*$/, ']') // 确保以 ] 结尾
-            .replace(/,\s*\]/g, ']') // 移除最后一个元素后的逗号
-            .replace(/,\s*$/g, '') // 移除末尾的逗号
+            .replace(/```json\n?|\n?```/g, '') // Remove code block markers
+            .replace(/^[\s\S]*?\[/, '[') // Ensure starts with [
+            .replace(/\][\s\S]*$/, ']') // Ensure ends with ]
+            .replace(/,\s*\]/g, ']') // Remove comma after last element
+            .replace(/,\s*$/g, '') // Remove trailing comma
             .trim();
 
-        // 验证和修复 JSON 格式
+        // Validate and fix JSON format
         try {
-            // 尝试解析 JSON 来验证格式
+            // Try to parse JSON to validate format
             const parsedJson = JSON.parse(finalText);
             
-            // 验证数组长度是否与输入相同
+            // Verify array length matches input
             if (parsedJson.length !== JSON.parse(content).length) {
                 throw new Error(`Output array length (${parsedJson.length}) does not match input array length (${JSON.parse(content).length})`);
             }
             
-            // 确保所有 FinalSentence 字段中的双引号都被正确转义
+            // Ensure all double quotes in FinalSentence fields are properly escaped
             const fixedJson = parsedJson.map((item: any) => {
                 if (item.FinalSentence) {
-                    // 转义双引号
+                    // Escape double quotes
                     item.FinalSentence = item.FinalSentence.replace(/"/g, '\\"');
                 }
                 return item;
             });
 
-            // 重新序列化为 JSON 字符串
+            // Re-serialize to JSON string
             finalText = JSON.stringify(fixedJson);
         } catch (jsonError) {
             console.error('JSON parsing error:', jsonError);
             throw new Error('Invalid JSON format in translation response');
         }
 
-        // 再次验证修复后的 JSON
+        // Validate fixed JSON again
         try {
             JSON.parse(finalText);
         } catch (finalError) {

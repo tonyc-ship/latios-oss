@@ -159,7 +159,7 @@ export default function ProfilePage() {
   return (
     <div className="container flex flex-col mx-auto py-2 px-4 sm:px-6">
       <div className="space-y-8">
-        {/* 用户信息部分 */}
+        {/* User information section */}
         <div className="space-y-8">
           <div>
             <h2 className="text-2xl font-bold tracking-tight text-primary">{t('profile.title')}</h2>

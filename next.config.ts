@@ -8,14 +8,14 @@ const nextConfig: NextConfig = {
     TRANSCRIBE_URL: process.env.TRANSCRIBE_URL,
     XIAOYUZHOU_URL: process.env.XIAOYUZHOU_URL,
     SUMMARY_URL: process.env.SUMMARY_URL,
-    // SMTP配置
+    // SMTP configuration
     SMTP_HOST: process.env.SMTP_HOST,
     SMTP_PORT: process.env.SMTP_PORT,
     SMTP_SECURE: process.env.SMTP_SECURE,
     SMTP_USER: process.env.SMTP_USER,
     SMTP_PASS: process.env.SMTP_PASS,
     SMTP_FROM: process.env.SMTP_FROM,
-    // 其他配置
+    // Other configuration
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
     CRON_AUTH_TOKEN: process.env.CRON_AUTH_TOKEN,
   },

@@ -344,7 +344,7 @@ export default React.memo(function EpisodeSummary({ episode, language, type, onC
       setLoading(false);
     }
 
-    // 如果没有检测到标记，正常结束流
+    // If no marker detected, end stream normally
     if (!signal.aborted && !gatingLimitReached) {
       setIsStreamingComplete(true);
     }

@@ -30,7 +30,7 @@ export default function EpisodeDetailPage() {
       try {
         setLoading(true);
         
-        // 首先尝试从数据库获取episode数据
+        // First try to get episode data from database
         const episodeResponse = await fetch(`/api/episode/${episodeId}`);
         if (episodeResponse.ok) {
           const episodeData = await episodeResponse.json();
@@ -55,7 +55,7 @@ export default function EpisodeDetailPage() {
           return;
         }
         
-        // 如果数据库中没有找到，尝试从iTunes API获取
+        // If not found in database, try to get from iTunes API
         if (podcastId) {
           const response = await fetch(`/api/media/itunes/get?id=${podcastId}&type=${platform}&episodeId=${episodeId}`);
           const podcastData = await response.json();

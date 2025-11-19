@@ -187,7 +187,7 @@ export default function LibraryPage() {
     }
   };
 
-  // 加载更多episodes
+  // Load more episodes
   const loadMoreEpisodes = async () => {
     if (loadingMoreEpisodes || !episodePagination?.hasMore) return;
     
@@ -199,7 +199,7 @@ export default function LibraryPage() {
     }
   };
 
-  // Podcast分页处理
+  // Podcast pagination handling
   const handlePodcastPageChange = (direction: 'prev' | 'next') => {
     if (direction === 'prev' && currentPodcastPage > 1) {
       setCurrentPodcastPage(currentPodcastPage - 1);
@@ -208,7 +208,7 @@ export default function LibraryPage() {
     }
   };
 
-  // 导航函数
+  // Navigation function
   const handleNavigateToPodcast = (podcast: Podcast) => {
     router.push(`/podcast/${podcast.data_id}?type=${podcast.platform}`);
   };
@@ -217,7 +217,7 @@ export default function LibraryPage() {
     router.push(`/episode/${podcastId}/${episodeId}/${platform}`);
   };
 
-  // 切换描述展开状态
+  // Toggle description expand state
   const toggleDescription = (episodeId: string) => {
     setExpandedDescriptions(prev => {
       const newSet = new Set(prev);
@@ -230,14 +230,14 @@ export default function LibraryPage() {
     });
   };
 
-  // 监听语言变化，重新分组episodes
+  // Listen to language changes, regroup episodes
   useEffect(() => {
     if (episodes.length > 0) {
       groupEpisodesByDate(episodes);
     }
   }, [i18n.language, episodes.length]);
 
-  // 初始数据加载
+  // Initial data loading
   useEffect(() => {
     if (user) {
       fetchPodcasts();
@@ -287,7 +287,7 @@ export default function LibraryPage() {
               ))}
             </div>
             
-            {/* Podcast分页控制 */}
+            {/* Podcast pagination control */}
             {podcastPagination && podcastPagination.totalPages > 1 && (
               <div className="absolute bottom-0 right-0 flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-lg p-2 shadow-sm">
                 <Button
@@ -332,7 +332,7 @@ export default function LibraryPage() {
             <div className="divide-y divide-gray-200">
               {groupedEpisodes.map((group, groupIndex) => (
                 <div key={groupIndex} className="relative">
-                  {/* 时间轴标题 */}
+                  {/* Timeline title */}
                   <div className="sticky top-0 bg-gray-50 px-4 py-3 border-b border-gray-200 z-10">
                     <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
                       <Calendar className="h-4 w-4" />
@@ -340,7 +340,7 @@ export default function LibraryPage() {
                     </div>
                   </div>
                   
-                  {/* 该日期的所有集数 */}
+                  {/* All episodes for this date */}
                   {group.episodes.map((episode) => (
                     <div key={episode.id} className="p-3 sm:p-4 hover:bg-gray-50">
                       <div className="flex gap-3 sm:gap-4 mb-2">
@@ -390,7 +390,7 @@ export default function LibraryPage() {
                 </div>
               ))}
               
-              {/* 加载更多按钮 */}
+              {/* Load more button */}
               {episodePagination?.hasMore && (
                 <div className="p-4 text-center border-t border-gray-200">
                   <Button

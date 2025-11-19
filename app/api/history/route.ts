@@ -3,7 +3,7 @@ import { supabase } from '@/lib/supabase';
 import { NextResponse } from 'next/server';
 import { getUserIdFromRequest } from '@/lib/user-check';
 
-// 插入历史记录
+// Insert history record
 export async function POST(request: Request) {
   try {
     
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
   }
 }
 
-// 获取用户历史记录（库）
+// Get user history records (library)
 export async function GET(request: Request) {
   try {
     const userId = await getUserIdFromRequest(request);
@@ -75,7 +75,7 @@ export async function GET(request: Request) {
     const limit = parseInt(searchParams.get('limit') || '20');
     const offset = (page - 1) * limit;
 
-    // 获取总数
+    // Get total count
     const { count: totalCount, error: countError } = await supabase
       .from('tbl_user_history')
       .select('*', { count: 'exact', head: true })
@@ -90,7 +90,7 @@ export async function GET(request: Request) {
       );
     }
 
-    // 获取分页数据
+    // Get paginated data
     const { data: history, error } = await supabase
       .from('tbl_user_history')
       .select('id, episode_id, podcast_id, title, img, podcast_name, description, url, create_time, platform')
