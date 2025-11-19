@@ -287,43 +287,6 @@ async def write_to_db_async(content: str, episode_id: str, podcast_name: str,
         logger.error(f"Database write error in async task: {str(e)}")
         # Don't throw exception to avoid affecting main flow
 
-# Keep original non-streaming endpoint as backup
-@app.post("/summarize-sync", response_model=SummarizeResponse)
-async def summarize_podcast_sync(request: SummarizeRequest):
-    try:
-        logger.info(f"Received sync summarization request for episode: {request.episodeId}")
-        
-        # Initialize LLM adapter
-        llm_adapter = LLMAdapter()
-        
-        # Use prompts passed from Node.js
-        system_prompt = request.system_prompt
-        user_prompt = request.user_prompt
-        
-        logger.info("Using prompts from Node.js")
-        
-        # Generate summary
-        try:
-            logger.info("Attempting summarization with LLM adapter")
-            content = llm_adapter.generate(system_prompt, user_prompt, max_tokens=10000)
-            logger.info("LLM summarization completed successfully")
-        except Exception as llm_error:
-            logger.error(f"LLM failed: {str(llm_error)}")
-            raise HTTPException(status_code=500, detail=f"AI summarization failed: {str(llm_error)}")
-        
-        return SummarizeResponse(
-            content=content,
-            success=True
-        )
-        
-    except Exception as e:
-        logger.error(f"Summarization error: {str(e)}")
-        return SummarizeResponse(
-            content="",
-            success=False,
-            error=str(e)
-        )
-
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001)

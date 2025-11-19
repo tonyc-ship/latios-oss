@@ -136,11 +136,44 @@ class Transcriber:
             response = requests.get(url, stream=True, headers=headers)
             response.raise_for_status()
 
-            with open(save_path, "wb") as file:
-                for chunk in response.iter_content(chunk_size=8192):
-                    file.write(chunk)
+            # Get total file size if available
+            total_size = response.headers.get('Content-Length')
+            total_size = int(total_size) if total_size else None
+            
+            chunk_size = 8192
+            from tqdm import tqdm
 
-            logger.info(f"Downloaded: {save_path}")
+            with open(save_path, "wb") as file:
+                if total_size:
+                    # Use tqdm with known total size
+                    with tqdm(
+                        total=total_size,
+                        unit='B',
+                        unit_scale=True,
+                        unit_divisor=1024,
+                        desc="Downloading",
+                        ncols=100
+                    ) as pbar:
+                        for chunk in response.iter_content(chunk_size=chunk_size):
+                            if chunk:
+                                file.write(chunk)
+                                pbar.update(len(chunk))
+                else:
+                    # Use tqdm without total (shows rate and downloaded amount)
+                    with tqdm(
+                        unit='B',
+                        unit_scale=True,
+                        unit_divisor=1024,
+                        desc="Downloading",
+                        ncols=100
+                    ) as pbar:
+                        for chunk in response.iter_content(chunk_size=chunk_size):
+                            if chunk:
+                                file.write(chunk)
+                                pbar.update(len(chunk))
+
+            final_size_mb = os.path.getsize(save_path) / (1024 * 1024)
+            logger.info(f"Download complete: {save_path} ({final_size_mb:.2f} MB)")
             return save_path
 
         except requests.exceptions.RequestException as e:
@@ -149,7 +182,7 @@ class Transcriber:
 
     def process_url(self, url: str) -> str:
         """Process URL for transcription - always download for local processing"""
-        logger.info(f'Processing audio URL: {url}')
+        logger.info(f'Downloading audio from URL: {url}')
         start_time = time.time()
         local_file = self.download_audio(url)
         end_time = time.time()

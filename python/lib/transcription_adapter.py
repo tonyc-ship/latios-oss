@@ -35,6 +35,21 @@ class TranscriptionAdapter:
     
     def _detect_provider(self) -> TranscriptionProvider:
         """Auto-detect which provider to use based on available API keys"""
+        # Check for explicit provider selection first
+        explicit_provider = os.environ.get("TRANSCRIPTION_PROVIDER")
+        if explicit_provider:
+            try:
+                provider = TranscriptionProvider(explicit_provider.lower())
+                logger.info(f"Using explicitly set transcription provider: {provider}")
+                return provider
+            except ValueError:
+                logger.warning(
+                    f"Invalid TRANSCRIPTION_PROVIDER value: {explicit_provider}. "
+                    f"Valid options: {', '.join([p.value for p in TranscriptionProvider])}. "
+                    "Falling back to auto-detection."
+                )
+        
+        # Auto-detect based on available keys
         deepgram_key = os.environ.get("DEEPGRAM_API_KEY")
         
         if deepgram_key:
