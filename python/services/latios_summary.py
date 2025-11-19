@@ -22,7 +22,8 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 # Load environment variables
-env_files = ['.env', '.env.local', '../.env', '../.env.local', '../../.env', '../../.env.local']for env_file in env_files:
+env_files = ['.env', '.env.local', '../.env', '../.env.local', '../../.env', '../../.env.local']
+for env_file in env_files:
     env_path = Path(env_file)
     if env_path.exists():
         from dotenv import load_dotenv

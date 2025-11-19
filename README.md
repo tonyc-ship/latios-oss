@@ -22,7 +22,9 @@
 5. Paste it into the SQL Editor
 6. Click **Run** (or press Cmd/Ctrl + Enter)
 
-You should see a success message. This creates three tables:
+You should see a success message. This creates the following tables:
+- `tbl_podcast` - Stores podcast/show information
+- `tbl_episode` - Stores podcast episode information
 - `tbl_transcript` - Stores podcast episode transcriptions
 - `tbl_summarize` - Stores episode summaries
 - `tbl_user_summarize_ref` - Tracks user interactions
@@ -42,7 +44,24 @@ You should see a success message. This creates three tables:
    - Replace `your-project-ref` with your Project ID
    - Replace `your-anon-key-here` with your anon/public key
 
-### 4. Install Dependencies and Run
+### 4. Populate Initial Podcasts (Optional but Recommended)
+
+After setting up your environment variables, you can populate the database with pre-curated podcasts from `top_podcasts.csv`:
+
+```bash
+npm install
+npm run init:podcasts
+```
+
+This script will:
+- Read the `top_podcasts.csv` file
+- Fetch RSS feeds for each podcast
+- Insert podcast metadata into `tbl_podcast`
+- Insert the latest 10 episodes for each podcast into `tbl_episode`
+
+**Note:** Make sure your environment variables are set before running this script, as it needs to connect to your Supabase database.
+
+### 5. Install Dependencies and Run
 
 ```bash
 npm install

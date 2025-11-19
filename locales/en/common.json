@@ -42,7 +42,7 @@
   "dashboard": {
     "title": "My Dashboard",
     "description": "Search and manage your podcasts",
-    "searchPlaceholder": "Search in 10M+ episodes",
+    "searchPlaceholder": "Search by podcast name",
     "search": "Search",
     "recommended": "Trending on Latios",
     "pasteLink": "Xiaoyuzhou",

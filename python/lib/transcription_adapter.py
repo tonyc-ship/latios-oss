@@ -53,7 +53,9 @@ class TranscriptionAdapter:
                 if not api_key:
                     raise ValueError("DEEPGRAM_API_KEY not found in environment")
                 # DeepgramClient reads API key from DEEPGRAM_API_KEY environment variable automatically
-                self._client = DeepgramClient()
+                # Set timeout to 15 minutes (900 seconds) to handle long audio files
+                # Deepgram supports up to 10 minutes processing time, so we need a longer client timeout
+                self._client = DeepgramClient(timeout=900.0)
                 logger.info("Deepgram client initialized successfully")
             except ImportError:
                 raise ImportError(
@@ -137,6 +139,10 @@ class TranscriptionAdapter:
             }
             
             # Handle URL vs local file
+            # Set request timeout to 15 minutes (900 seconds) for long audio processing
+            # Deepgram supports up to 10 minutes processing, so we need longer timeout
+            request_options = {"timeout_in_seconds": 900}
+            
             if audio_path.startswith('http://') or audio_path.startswith('https://'):
                 # URL-based transcription
                 logger.info("Transcribing from URL")
@@ -147,7 +153,8 @@ class TranscriptionAdapter:
                     punctuate=True,
                     diarize=enable_speaker_diarization,
                     smart_format=True,
-                    utterances=True
+                    utterances=True,
+                    request_options=request_options
                 )
             else:
                 # File-based transcription
@@ -160,7 +167,8 @@ class TranscriptionAdapter:
                         punctuate=True,
                         diarize=enable_speaker_diarization,
                         smart_format=True,
-                        utterances=True
+                        utterances=True,
+                        request_options=request_options
                     )
             
             # Convert Deepgram response to standard format
