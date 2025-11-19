@@ -135,3 +135,58 @@ CREATE INDEX IF NOT EXISTS idx_tbl_user_summarize_ref_user_id ON tbl_user_summar
 CREATE INDEX IF NOT EXISTS idx_tbl_user_summarize_ref_data_id ON tbl_user_summarize_ref(data_id);
 CREATE INDEX IF NOT EXISTS idx_tbl_user_summarize_ref_data_type ON tbl_user_summarize_ref(data_type);
 CREATE INDEX IF NOT EXISTS idx_tbl_user_summarize_ref_delete_status ON tbl_user_summarize_ref(delete_status);
+
+-- Table: tbl_user_favorite
+-- Stores user favorite podcasts and episodes
+CREATE TABLE IF NOT EXISTS tbl_user_favorite (
+  id BIGSERIAL PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  type INTEGER NOT NULL,
+  platform TEXT DEFAULT '',
+  data_id TEXT NOT NULL,
+  p_id TEXT DEFAULT '',
+  title TEXT DEFAULT '',
+  img TEXT DEFAULT '',
+  url TEXT DEFAULT '',
+  description TEXT DEFAULT '',
+  channel_name TEXT DEFAULT '',
+  podcast_id INTEGER,
+  duration TEXT DEFAULT '',
+  create_time TIMESTAMPTZ DEFAULT NOW(),
+  update_time TIMESTAMPTZ DEFAULT NOW(),
+  delete_status INTEGER DEFAULT 1
+);
+
+CREATE INDEX IF NOT EXISTS idx_tbl_user_favorite_user_id ON tbl_user_favorite(user_id);
+CREATE INDEX IF NOT EXISTS idx_tbl_user_favorite_data_id ON tbl_user_favorite(data_id);
+CREATE INDEX IF NOT EXISTS idx_tbl_user_favorite_type ON tbl_user_favorite(type);
+CREATE INDEX IF NOT EXISTS idx_tbl_user_favorite_delete_status ON tbl_user_favorite(delete_status);
+CREATE INDEX IF NOT EXISTS idx_tbl_user_favorite_create_time ON tbl_user_favorite(create_time);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_tbl_user_favorite_unique ON tbl_user_favorite(user_id, data_id, type) WHERE delete_status = 1;
+
+-- Table: tbl_user_history
+-- Stores user viewing/playback history
+CREATE TABLE IF NOT EXISTS tbl_user_history (
+  id BIGSERIAL PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  platform TEXT DEFAULT '',
+  episode_id TEXT NOT NULL,
+  podcast_id TEXT DEFAULT '',
+  title TEXT DEFAULT '',
+  img TEXT DEFAULT '',
+  podcast_name TEXT DEFAULT '',
+  description TEXT DEFAULT '',
+  url TEXT DEFAULT '',
+  create_user_id TEXT DEFAULT '',
+  update_user_id TEXT DEFAULT '',
+  create_time TIMESTAMPTZ DEFAULT NOW(),
+  update_time TIMESTAMPTZ DEFAULT NOW(),
+  delete_status INTEGER DEFAULT 1,
+  UNIQUE(user_id, episode_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_tbl_user_history_user_id ON tbl_user_history(user_id);
+CREATE INDEX IF NOT EXISTS idx_tbl_user_history_episode_id ON tbl_user_history(episode_id);
+CREATE INDEX IF NOT EXISTS idx_tbl_user_history_podcast_id ON tbl_user_history(podcast_id);
+CREATE INDEX IF NOT EXISTS idx_tbl_user_history_delete_status ON tbl_user_history(delete_status);
+CREATE INDEX IF NOT EXISTS idx_tbl_user_history_create_time ON tbl_user_history(create_time);

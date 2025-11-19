@@ -112,7 +112,7 @@ export default function EpisodeDetailPage() {
 
 useEffect(() => {
   async function checkUserSummaryExists() {
-    if (!episodeId) return;
+    if (!episodeId || !episode) return;
     
     try {
       const summaryData = {
@@ -141,29 +141,28 @@ useEffect(() => {
       console.error('Error setting summary ref:', error);
     }
 
-    if(user?.id) {
-      try {
-        fetch('/api/history', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${auth?.session?.access_token}`,
-          },
-          body: JSON.stringify({
-            userId: user?.id,
-            episodeId: episode?.id,
-            podcastId: episode?.podcast_id,
-            platform: episode?.type,
-            title: episode?.title,
-            img: episode?.itunes_image || episode?.podcast_img,
-            podcastName: episode?.podcast_name,
-            description: episode?.description,
-            url: episode?.enclosure_url,
-          }),
-        });
-      } catch (error) {
-        console.error('Error getting summary:', error);
-      }
+    // Always save history since we have a default user ID
+    try {
+      fetch('/api/history', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${auth?.session?.access_token}`,
+        },
+        body: JSON.stringify({
+          userId: user?.id,
+          episodeId: episode?.id,
+          podcastId: episode?.podcast_id,
+          platform: episode?.type,
+          title: episode?.title,
+          img: episode?.itunes_image || episode?.podcast_img,
+          podcastName: episode?.podcast_name,
+          description: episode?.description,
+          url: episode?.enclosure_url,
+        }),
+      });
+    } catch (error) {
+      console.error('Error saving history:', error);
     }
   }
   checkUserSummaryExists();

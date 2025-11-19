@@ -242,6 +242,9 @@ export default function LibraryPage() {
     if (user) {
       fetchPodcasts();
       fetchEpisodes();
+    } else {
+      // If no user, stop loading
+      setLoading(false);
     }
   }, [user, currentPodcastPage]);
 
