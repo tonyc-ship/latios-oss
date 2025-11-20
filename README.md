@@ -1,4 +1,13 @@
-# LATIOS: Latios Agentic Trends & Insights Output System
+# LATIOS
+
+LATIOS transcribes and summarizes podcasts and Youtube videos for you. You can also ask questions about the content. More features coming... 
+
+<div align="center">
+  <img src="public/screenshot_1.png" alt="Library/Discover View" width="32%"/>
+  <img src="public/screenshot_2.png" alt="Episode Detail Page" width="32%"/>
+  <img src="public/screenshot_3.png" alt="AI Q&A Feature" width="32%"/>
+  <p><em>Library view | Episode summary | AI Q&A</em></p>
+</div>
 
 ## Quick Start
 

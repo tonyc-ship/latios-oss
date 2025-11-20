@@ -222,7 +222,10 @@ class Transcriber:
                 "status": status
             }
 
-            logger.info(f'Saving to database with data: {data}')
+            short_data_str = str(data)
+            if len(short_data_str) > 200:
+                short_data_str = short_data_str[:200] + '...'
+            logger.info(f"Saving to database with data (truncated): {short_data_str}")
             supabase.table("tbl_transcript").upsert(data, on_conflict='episode_id,language').execute()
 
             logger.info(f'Successfully saved to database with status {status}')
