@@ -1,6 +1,8 @@
-# LATIOS
+# Latios Insights
 
-LATIOS transcribes and summarizes podcasts and Youtube videos for you. You can also ask questions about the content. More features coming... 
+[![www.latios.ai](https://img.shields.io/badge/Visit-latios.ai-blue?logo=google-chrome)](https://www.latios.ai)
+
+1-hour-long podcasts and YouTube videos have valuable information, but we often don't have time to finish them. Latios helps you catch up on their best insights in  3 minutes. And you can run AI models locally, so there’s zero cost.
 
 <div align="center">
   <img src="public/screenshot_1.png" alt="Library/Discover View" width="32%"/>

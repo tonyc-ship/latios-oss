@@ -1,7 +1,7 @@
 "use client";
 
 import { Mail } from "lucide-react";
-import { FaDiscord, FaXTwitter } from "react-icons/fa6";
+import { FaDiscord, FaGithub, FaXTwitter } from "react-icons/fa6";
 
 export default function SiteFooter() {
   return (
@@ -27,6 +27,16 @@ export default function SiteFooter() {
           >
             <FaXTwitter size={20} />
             <span className="sr-only">X</span>
+          </a>
+          <a
+            href="https://github.com/tonyc-ship/latios-insights"
+            className="p-1.5 rounded-full text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+          >
+            <FaGithub size={20} />
+            <span className="sr-only">GitHub</span>
           </a>
           <a
             href="mailto:team@surrealx.ai"
